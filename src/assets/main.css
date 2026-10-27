@@ -1,0 +1,476 @@
+@import "tailwindcss";
+
+/*
+ * Token desain.
+ * - Di template: pakai kelas Tailwind dari token ini, mis. bg-brand-700, text-ink-600, border-p2-200.
+ * - Di SVG / style inline: pakai variabelnya langsung, mis. fill="var(--brand-700)".
+ * Palet warna bawaan Tailwind sengaja dimatikan (lihat @theme inline) supaya warna tetap konsisten.
+ *
+ * Semantik: brand = P1 / identitas, p2 = periode pembanding, pos = naik, neg = turun, note = peringatan.
+ */
+:root {
+  --brand-50: #fcf3f8;
+  --brand-100: #f8e3ee;
+  --brand-200: #eec9dc;
+  --brand-300: #db9ebe;
+  --brand-400: #c66c9b;
+  --brand-500: #b23475;
+  --brand-600: #931556;
+  --brand-700: #72003b;
+  --brand-800: #57002d;
+  --brand-900: #3d0020;
+
+  --ink-900: #241a1f;
+  --ink-800: #3a2c33;
+  --ink-700: #4a3b42;
+  --ink-600: #6b5a62;
+  --ink-500: #85707a;
+  --ink-400: #a8949c;
+  --ink-300: #cfc2c8;
+  --ink-200: #e7dee2;
+  --ink-100: #f2ecef;
+  --ink-50: #faf7f8;
+
+  --p2-50: #f2f6fe;
+  --p2-100: #e2ebfd;
+  --p2-200: #c7d8fa;
+  --p2-300: #9ebcf3;
+  --p2-500: #4a7fe6;
+  --p2-600: #2f6fdf;
+  --p2-700: #1f56bf;
+
+  --pos-50: #e7f3ee;
+  --pos-500: #12876a;
+  --pos-700: #0e6e52;
+
+  --neg-50: #fdeceb;
+  --neg-500: #d14134;
+  --neg-700: #b42318;
+
+  --note-50: #fdf7e8;
+  --note-200: #eedcb4;
+  --note-700: #8a5a00;
+
+  --paper: #ffffff;
+  --wash: #f8f5f6;
+  --canvas: #f3eff1;
+
+  color-scheme: light;
+}
+
+@theme {
+  --color-*: initial;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-white: #fff;
+  --color-black: #000;
+
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  --color-ink-50: var(--ink-50);
+  --color-ink-100: var(--ink-100);
+  --color-ink-200: var(--ink-200);
+  --color-ink-300: var(--ink-300);
+  --color-ink-400: var(--ink-400);
+  --color-ink-500: var(--ink-500);
+  --color-ink-600: var(--ink-600);
+  --color-ink-700: var(--ink-700);
+  --color-ink-800: var(--ink-800);
+  --color-ink-900: var(--ink-900);
+
+  --color-p2-50: var(--p2-50);
+  --color-p2-100: var(--p2-100);
+  --color-p2-200: var(--p2-200);
+  --color-p2-300: var(--p2-300);
+  --color-p2-500: var(--p2-500);
+  --color-p2-600: var(--p2-600);
+  --color-p2-700: var(--p2-700);
+
+  --color-pos-50: var(--pos-50);
+  --color-pos-500: var(--pos-500);
+  --color-pos-700: var(--pos-700);
+
+  --color-neg-50: var(--neg-50);
+  --color-neg-500: var(--neg-500);
+  --color-neg-700: var(--neg-700);
+
+  --color-note-50: var(--note-50);
+  --color-note-200: var(--note-200);
+  --color-note-700: var(--note-700);
+
+  --color-paper: var(--paper);
+  --color-wash: var(--wash);
+  --color-canvas: var(--canvas);
+}
+
+/*
+ * "desk": layar cukup lebar DAN tinggi. Di sini tata letak tingginya tetap (kanvas pohon menggulung sendiri).
+ * Di bawahnya (ponsel, jendela pendek) halaman menggulung biasa dan kanvas punya tinggi minimum.
+ */
+@custom-variant desk (@media (min-width: 64rem) and (min-height: 40rem));
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 2px;
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink-900);
+    font-size: 13px;
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--brand-100);
+    color: var(--brand-900);
+  }
+
+  button:not(:disabled),
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+
+  select option,
+  select optgroup {
+    color: var(--ink-900);
+    background-color: var(--paper);
+  }
+}
+
+/* Kelas komponen bersama. Kelas utilitas Tailwind di template tetap bisa menimpanya. */
+@layer components {
+  .dt-btn-quiet {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 0.375rem;
+    padding: 0.3125rem 0.5rem;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-700);
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .dt-btn-quiet:hover:not(:disabled) {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+  .dt-btn-quiet:disabled {
+    color: var(--ink-300);
+  }
+
+  .dt-select {
+    appearance: none;
+    height: 2.125rem;
+    max-width: 100%;
+    border: 1px solid var(--ink-200);
+    border-radius: 0.5rem;
+    background: var(--paper);
+    padding: 0 2rem 0 0.75rem;
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-900);
+    transition: border-color 0.15s;
+  }
+  .dt-select:hover {
+    border-color: var(--brand-300);
+  }
+
+  .dt-header-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    border-radius: 0.5rem;
+    background: rgb(255 255 255 / 0.08);
+    padding: 0 0.75rem;
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #fff;
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+  .dt-header-btn:hover {
+    background: rgb(255 255 255 / 0.16);
+    border-color: rgb(255 255 255 / 0.45);
+  }
+  .dt-header-btn[aria-pressed="true"] {
+    background: rgb(255 255 255 / 0.2);
+  }
+
+  .dt-menu {
+    border: 1px solid var(--ink-200);
+    border-radius: 0.75rem;
+    background: var(--paper);
+    padding: 0.25rem;
+    box-shadow: 0 14px 34px -14px rgb(36 26 31 / 0.38), 0 2px 8px rgb(36 26 31 / 0.08);
+  }
+
+  .dt-menu-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    padding: 0.4375rem 0.625rem;
+    text-align: left;
+    font-size: 12.5px;
+    color: var(--ink-800);
+    transition: background-color 0.12s, color 0.12s;
+  }
+  .dt-menu-item:hover,
+  .dt-menu-item:focus-visible {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .dt-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border: 1px solid var(--brand-200);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--brand-50) 70%, transparent);
+    padding: 0.3125rem 0.75rem;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--brand-700);
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+  .dt-chip:hover {
+    background: var(--brand-100);
+    border-color: var(--brand-300);
+  }
+
+  .dt-date {
+    height: 1.875rem;
+    width: 8.5rem;
+    border: 1px solid var(--ink-200);
+    border-radius: 0.375rem;
+    background: var(--paper);
+    padding: 0 0.5rem;
+    font: inherit;
+    font-size: 12.5px;
+    color: var(--ink-900);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .dt-date:hover {
+    border-color: var(--brand-300);
+  }
+  .dt-date:focus {
+    outline: none;
+    border-color: var(--brand-400);
+    box-shadow: 0 0 0 3px var(--brand-100);
+  }
+  .dt-date[data-tone="p2"]:hover {
+    border-color: var(--p2-300);
+  }
+  .dt-date[data-tone="p2"]:focus {
+    border-color: var(--p2-500);
+    box-shadow: 0 0 0 3px var(--p2-100);
+  }
+  .dt-date[aria-invalid="true"] {
+    border-color: var(--neg-500);
+  }
+  .dt-date::-webkit-calendar-picker-indicator {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  .dt-date:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.9;
+  }
+
+  .dt-btn-quiet,
+  .dt-select,
+  .dt-menu-item,
+  .dt-chip {
+    &:focus-visible {
+      outline: 2px solid var(--brand-400);
+      outline-offset: 2px;
+    }
+  }
+  .dt-header-btn:focus-visible,
+  .dt-header-icon:focus-visible {
+    outline: 2px solid rgb(255 255 255 / 0.85);
+    outline-offset: 2px;
+  }
+}
+
+/* Gaya khusus yang tidak praktis ditulis sebagai utilitas. */
+.dt-topbar {
+  background-image: linear-gradient(103deg, var(--brand-900) 0%, var(--brand-700) 48%, var(--brand-600) 100%);
+}
+
+.dt-canvas {
+  background-color: var(--canvas);
+  background-image: radial-gradient(rgb(114 0 59 / 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+}
+
+.dt-fill {
+  background-image: linear-gradient(90deg, var(--brand-500), var(--brand-700));
+}
+.dt-fill-mute {
+  background-image: linear-gradient(90deg, var(--brand-200), var(--brand-300));
+}
+.dt-fill-pos {
+  background-image: linear-gradient(90deg, var(--pos-500), var(--pos-700));
+}
+.dt-fill-neg {
+  background-image: linear-gradient(90deg, var(--neg-500), var(--neg-700));
+}
+
+.dt-shadow {
+  box-shadow: 0 1px 2px rgb(36 26 31 / 0.05), 0 1px 1px rgb(36 26 31 / 0.04);
+}
+.dt-shadow-lift:hover {
+  box-shadow: 0 8px 20px -8px rgb(114 0 59 / 0.26), 0 2px 6px rgb(36 26 31 / 0.06);
+}
+.dt-glow {
+  filter: drop-shadow(0 1px 3px rgb(114 0 59 / 0.35));
+}
+
+@keyframes dtRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dtPop {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dtDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes dtReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes dtSweep {
+  from {
+    background-position: -160% 0;
+  }
+  to {
+    background-position: 260% 0;
+  }
+}
+
+.dt-rise {
+  animation: dtRise 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dt-pop {
+  animation: dtPop 0.14s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dt-draw {
+  stroke-dasharray: 1;
+  animation: dtDraw 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dt-reveal {
+  animation: dtReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dt-skeleton {
+  background-image: linear-gradient(90deg, var(--ink-100) 0%, var(--brand-50) 45%, var(--ink-100) 90%);
+  background-size: 220% 100%;
+  animation: dtSweep 1.5s ease-in-out infinite;
+}
+
+.dt-scroll::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.dt-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dt-scroll::-webkit-scrollbar-thumb {
+  background: var(--ink-200);
+  background-clip: content-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+}
+.dt-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-300);
+  background-clip: content-box;
+  border: 3px solid transparent;
+}
+
+/* Transisi panel Data */
+.dt-drawer-enter-active,
+.dt-drawer-leave-active {
+  transition: opacity 0.2s ease;
+}
+.dt-drawer-enter-active .dt-drawer-panel,
+.dt-drawer-leave-active .dt-drawer-panel {
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dt-drawer-enter-from,
+.dt-drawer-leave-to {
+  opacity: 0;
+}
+.dt-drawer-enter-from .dt-drawer-panel,
+.dt-drawer-leave-to .dt-drawer-panel {
+  transform: translateX(32px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-rise,
+  .dt-pop,
+  .dt-draw,
+  .dt-reveal,
+  .dt-skeleton {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+  }
+}
